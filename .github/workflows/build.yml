@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        target: [i686-w64-mingw32, x86_64-w64-mingw32]
+        target: [x86_64-w64-mingw32]
     steps:
       - uses: actions/checkout@v2
 
@@ -32,20 +32,20 @@ jobs:
           pip3 install --no-input meson ninja
           ./bootstrap.py
 
-      - name: Build with meson
-        run: |
-          ./ci/build-mingw64.sh meson
-        env:
-          TARGET: ${{ matrix.target }}
+#       - name: Build with meson
+#         run: |
+#           ./ci/build-mingw64.sh meson
+#         env:
+#           TARGET: ${{ matrix.target }}
 
-      - name: Print meson log
-        if: ${{ failure() }}
-        run: |
-          cat ./${{ matrix.target }}_mingw_build/meson-logs/meson-log.txt
+#       - name: Print meson log
+#         if: ${{ failure() }}
+#         run: |
+#           cat ./${{ matrix.target }}_mingw_build/meson-logs/meson-log.txt
 
       - name: Build with waf
         run: |
-          ./ci/build-mingw64.sh waf
+          ./ci/build-mingw64.sh
         env:
           TARGET: ${{ matrix.target }}
 
